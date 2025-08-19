@@ -17,26 +17,36 @@ const Dashboard: React.FC = () => {
   const recent = useMemo(() => transactions.slice(0, 5), [transactions]);
 
   return (
-    <div className="w-full px-4 py-6">
-      <h1 className="mb-4 text-2xl font-semibold">Wallet Dashboard</h1>
+    <div className="min-h-screen w-full px-4 py-6 text-white">
+      <h1 className="mb-6 text-center text-2xl font-bold text-[#f5c542]">
+        Wallet Dashboard
+      </h1>
+
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {balances.map(({ c, val }) => (
-          <div key={c} className="rounded-2xl border p-4 shadow-sm">
-            <div className="text-sm text-gray-500">{c}</div>
-            <div className="text-xl font-semibold">{format(val, c)}</div>
+          <div
+            key={c}
+            className="rounded-2xl border border-[#2a2a2a] p-4 shadow-lg hover:shadow-[#f5c54233] transition"
+          >
+            <div className="text-sm text-gray-400">{c}</div>
+            <div className="text-xl font-semibold text-[black]">
+              {format(val, c)}
+            </div>
           </div>
         ))}
       </div>
 
-      <div className="mt-6 grid gap-4 sm:grid-cols-3">
-        <div className="rounded-2xl border p-4">
-          <div className="mb-2 text-sm font-medium">Quick Add Funds (INR)</div>
+      <div className="mt-8 grid gap-4 sm:grid-cols-3">
+        <div className="rounded-2xl border border-[#2a2a2a] p-4 shadow-lg">
+          <div className="mb-2 text-sm font-medium text-gray-300">
+            Quick Add Funds (INR)
+          </div>
           <div className="flex gap-2">
             <input
               value={quickAdd}
               onChange={(e) => setQuickAdd(e.target.value)}
               placeholder="Amount in INR"
-              className="flex-1 rounded-lg border px-3 py-2 outline-none focus:ring"
+              className="flex-1 rounded-lg border border-gray-600 px-3 py-2 text-sm text-white placeholder-gray-400 focus:border-[#f5c542] focus:ring-1 focus:ring-[#f5c542] outline-none"
               inputMode="numeric"
             />
             <button
@@ -46,27 +56,41 @@ const Dashboard: React.FC = () => {
                 addFunds(amt);
                 setQuickAdd('');
               }}
-              className="rounded-lg bg-black px-4 py-2 text-white"
-            >Add</button>
+              className="rounded-lg px-4 py-2 text-sm font-semibold text-black shadow-md hover:opacity-90"
+            >
+              Add
+            </button>
           </div>
         </div>
 
-        <Link to="/withdraw" className="rounded-2xl border p-4 hover:shadow">
-          <div className="text-lg font-semibold">Withdraw Funds</div>
-          <div className="text-sm text-gray-600">Transfer to bank </div>
+        <Link
+          to="/withdraw"
+          className="rounded-2xl border border-[#2a2a2a] p-4 shadow-lg hover:shadow-[#f5c54233] transition"
+        >
+          <div className="text-lg font-semibold text-[#f5c542]">
+            Withdraw Funds
+          </div>
+          <div className="text-sm text-gray-400">Transfer to bank</div>
         </Link>
 
-        <Link to="/exchange" className="rounded-2xl border p-4 hover:shadow">
-          <div className="text-lg font-semibold">Exchange Currency</div>
-          <div className="text-sm text-gray-600">INR ↔ USD/EUR/GBP</div>
+        <Link
+          to="/exchange"
+          className="rounded-2xl border border-[#2a2a2a] p-4 shadow-lg hover:shadow-[#f5c54233] transition"
+        >
+          <div className="text-lg font-semibold text-[#f5c542]">
+            Exchange Currency
+          </div>
+          <div className="text-sm text-gray-400">INR ↔ USD/EUR/GBP</div>
         </Link>
       </div>
 
-      <div className="mt-8">
-        <h2 className="mb-2 text-lg font-semibold">Recent Transactions</h2>
-        <div className="overflow-hidden rounded-2xl border">
+      <div className="mt-10">
+        <h2 className="mb-3 text-lg font-semibold text-[#f5c542]">
+          Recent Transactions
+        </h2>
+        <div className="overflow-hidden rounded-2xl border border-[#2a2a2a]">
           <table className="min-w-full text-sm">
-            <thead className="bg-gray-50">
+            <thead className="text-[black]">
               <tr>
                 <th className="px-3 py-2 text-left">Date</th>
                 <th className="px-3 py-2 text-left">Type</th>
@@ -76,14 +100,23 @@ const Dashboard: React.FC = () => {
             </thead>
             <tbody>
               {recent.length === 0 && (
-                <tr><td className="px-3 py-4" colSpan={4}>No transactions yet.</td></tr>
+                <tr>
+                  <td className="px-3 py-4 text-center text-[black]" colSpan={4}>
+                    No transactions yet.
+                  </td>
+                </tr>
               )}
-              {recent.map((t) => (
-                <tr key={t.id} className="border-t">
+              {recent.map((t, i) => (
+                <tr
+                  key={t.id}
+                  className={i % 2 === 0 ? "bg-[#fff]" : ""}
+                >
                   <td className="px-3 py-2">{new Date(t.date).toLocaleString()}</td>
                   <td className="px-3 py-2">{t.type}</td>
                   <td className="px-3 py-2">{t.status}</td>
-                  <td className="px-3 py-2 text-right">{t.amountInINR.toFixed(2)}</td>
+                  <td className="px-3 py-2 text-right text-[#f5c542]">
+                    {t.amountInINR.toFixed(2)}
+                  </td>
                 </tr>
               ))}
             </tbody>
